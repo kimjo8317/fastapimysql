@@ -1,5 +1,5 @@
 from sqlalchemy import *
-from sqlalchemy.orm import sessionmaker, declarative_base
+from sqlalchemy.orm import sessionmaker
 
 app = {
     'name': 'mysql+pymysql',
@@ -7,15 +7,22 @@ app = {
     'password': '1234',
     'host': 'localhost',
     'dbconn': 'fookpro',
-    'port': '3306'
+    'port': '3305'
 }
 
 conn_string=f'{app["name"]}://{app["user"]}:{app["password"]}@{app["host"]}:{app["port"]}/{app["dbconn"]}'
 
-Base = declarative_base()
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 
-class enineconn:
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
+
+class engineconn:
     def __init__(self):
         self.engine = create_engine(conn_string, pool_recycle=500)
 

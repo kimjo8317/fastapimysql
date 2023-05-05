@@ -1,15 +1,19 @@
 from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware
-import models
-from database import engine
-models.Base.metadata.create_all(bind=engine)
+from database import engineconn
+from models import User
+from user import user_router
+# models.Base.metadata.create_all(bind=engine)
 
 
 
 app = FastAPI()
 
+engine = engineconn()
+session = engine.sessionmaker()
+
 origins = [
-    "http://localhost:3000",    # 또는 "http://localhost:5173"
+    "http://localhost:3000",
 ]
 
 app.add_middleware(
@@ -18,9 +22,14 @@ app.add_middleware(
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
-
 )
 
 @app.get("/")
 async def root():
-    return {"message": "Hello World"}
+    example = session.query(User).all()
+    return example
+
+
+
+
+app.include_router(user_router.router)
