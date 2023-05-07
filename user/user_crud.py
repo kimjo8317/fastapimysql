@@ -1,6 +1,5 @@
 from passlib.context import CryptContext
 from sqlalchemy.orm import Session
-
 from models import User
 from user.user_schema import UserCreate
 

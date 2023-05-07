@@ -1,6 +1,5 @@
 import secrets
 from datetime import datetime, timedelta
-
 import jwt
 from fastapi import APIRouter, HTTPException, Depends
 from fastapi.security import OAuth2PasswordRequestForm
