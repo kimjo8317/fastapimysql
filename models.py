@@ -16,3 +16,10 @@ class User(Base):
     email = Column(TEXT, nullable=False)
     birth = Column(DATE, nullable=False)
 
+class questionboard(Base):
+    __tablename__ = "questionboard"
+
+    id = Column(INT, primary_key=True, autoincrement=True)
+    subject = Column(VARCHAR, nullable=False)
+    content = Column(TEXT, nullable=False)
+    create_date = Column(DATE, nullable=False)
