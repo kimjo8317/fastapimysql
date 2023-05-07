@@ -9,3 +9,7 @@ class UserCreate(BaseModel):
     email: str
     birth: str
 
+class Token(BaseModel):
+    access_token: str
+    token_type: str
+    username: str

@@ -11,7 +11,6 @@ app = FastAPI()
 
 engine = engineconn() 
 Session = sessionmaker(bind=engineconn)
-session = Session()
 
 
 origins = [

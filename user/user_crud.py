@@ -25,3 +25,7 @@ def get_existing_user(db: Session, user_create: UserCreate):
         (User.email == user_create.email)
     ).first()
 #username 또는 email로 등록된 사용자가 있는지 조회하는 get_existing_user 함수
+
+def get_user(db: Session, username: str):
+    return db.query(User).filter(User.username == username).first()
+#사용자명으로 사용자 모델 객체를 리턴하는 get_user 함수
