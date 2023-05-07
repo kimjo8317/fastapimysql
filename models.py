@@ -1,7 +1,9 @@
+from passlib.context import CryptContext
 from sqlalchemy import Column, TEXT, INT, VARCHAR, DATE
-from sqlalchemy.orm import declarative_base
+from sqlalchemy.ext.declarative import declarative_base
 
 Base = declarative_base()
+pwd_content = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 class User(Base):
     __tablename__ = "User"
