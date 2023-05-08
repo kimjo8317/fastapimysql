@@ -1,10 +1,11 @@
 from fastapi import FastAPI
 from sqlalchemy.orm import sessionmaker
-
-from database import engineconn
 from passlib.context import CryptContext
 from fastapi.middleware.cors import CORSMiddleware
-from user import user_router
+from api.user import user_router
+# from api.board import question_router
+from database import engineconn
+
 
 
 app = FastAPI() 
@@ -29,5 +30,6 @@ app.add_middleware(
 
 pwd_content = CryptContext(schemes=["bcrypt"],deprecated="auto")
 
-
 app.include_router(user_router.router)
+# app.include_router(question_router.router)
+

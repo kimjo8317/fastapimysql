@@ -6,7 +6,7 @@ Base = declarative_base()
 pwd_content = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 class User(Base):
-    __tablename__ = "User"
+    __tablename__ = "user"
 
     id = Column(INT, nullable=False, autoincrement=True, primary_key=True)
     username = Column(VARCHAR, nullable=False)
@@ -16,10 +16,10 @@ class User(Base):
     email = Column(TEXT, nullable=False)
     birth = Column(DATE, nullable=False)
 
-class questionboard(Base):
+class Questionboard(Base):
     __tablename__ = "questionboard"
 
-    id = Column(INT, primary_key=True, autoincrement=True)
+    id = Column(INT, primary_key=True, nullable=False, autoincrement=True)
     subject = Column(VARCHAR, nullable=False)
     content = Column(TEXT, nullable=False)
     create_date = Column(DATE, nullable=False)

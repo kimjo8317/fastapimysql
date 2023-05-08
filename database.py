@@ -3,6 +3,15 @@ from sqlalchemy.orm import sessionmaker
 
 DB_URL = 'mysql+pymysql://root:1234@localhost:3305/fookpro'
 
+
+def get_db():
+    try:
+        session = engineconn().get_session()
+        yield session
+
+    finally:
+        session.close()
+        
 class engineconn:
 
     def __init__(self):
@@ -15,12 +24,7 @@ class engineconn:
 
     def get_connection(self):
         conn = self.engine.connect()
+        
         return conn
+    
 
-def get_db():
-    try:
-        session = engineconn().get_session()
-        yield session
-
-    finally:
-        session.close()
