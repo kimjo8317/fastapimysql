@@ -1,7 +1,9 @@
 from datetime import datetime
-from main import Session
+# from main import Session
+from sqlalchemy.orm import Session
+
 from models import Questionboard
-from api.board.question_schema import questionCreate
+from api.board.question_schema import QuestionCreate
 
 
 # def get_question_list(db: Session):
@@ -14,7 +16,7 @@ from api.board.question_schema import questionCreate
 #     question = db.query(questionCreate).get(question_id)
 #     return question
 
-def create_question(db: Session, question_Create: questionCreate):
+def create_question(db: Session, question_Create: QuestionCreate):
     db_createboard = Questionboard(
                            subject=question_Create.subject,
                            content=question_Create.content,

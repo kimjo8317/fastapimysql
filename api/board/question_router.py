@@ -9,7 +9,7 @@ router = APIRouter(
     prefix="/api/board",
 )
 @router.post("/createboard", status_code=status.HTTP_204_NO_CONTENT)
-def question_create(_questionCreate: question_schema.questionCreate,
+def question_create(_questionCreate: question_schema.QuestionCreate,
                     db: Session = Depends(get_db)):
     question_crud.create_question(db, question_Create=_questionCreate)
 # @router.get("/detail/{question_id}", response_model=question_schema.Question)

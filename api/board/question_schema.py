@@ -2,7 +2,7 @@ from datetime import datetime
 
 from pydantic import BaseModel, validator
 
-class questionCreate(BaseModel):
+class QuestionCreate(BaseModel):
     
     subject: str
     content: str
