@@ -13,3 +13,9 @@ class Token(BaseModel):
     access_token: str
     token_type: str
     username: str
+
+class Updateuser(BaseModel):
+    name: str
+    phonenumber: str
+    email: str
+    birth: str
