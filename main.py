@@ -1,6 +1,5 @@
-import os
-
-import uvicorn
+from fastapi import FastAPI
+import requests
 from fastapi import FastAPI
 from sqlalchemy.orm import sessionmaker
 from passlib.context import CryptContext
@@ -11,7 +10,18 @@ from database import engineconn
 
 
 
-app = FastAPI() 
+app = FastAPI()
+
+# AI 서버의 주소
+AI_SERVER_URL = "http://127.0.0.1:8000"
+@app.post("/predict")
+async def predict(input_data: str):
+    # AI 서버로 데이터 전송
+    ai_server_response = requests.post(AI_SERVER_URL + "/predict", data=input_data)
+
+    # AI 서버에서 받은 결과 반환
+    return ai_server_response.text
+
 
 engine = engineconn() 
 Session = sessionmaker(bind=engineconn)
