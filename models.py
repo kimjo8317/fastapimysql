@@ -23,3 +23,8 @@ class Questionboard(Base):
     subject = Column(VARCHAR, nullable=False)
     content = Column(TEXT, nullable=False)
     create_date = Column(DATE, nullable=False)
+
+class food(Base):
+    __tablename__ = "food"
+    id = Column(INT, primary_key=True, nullable=False, autoincrement=True)
+    name = Column(TEXT, nullable=False)
