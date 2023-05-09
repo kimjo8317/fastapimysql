@@ -2,7 +2,7 @@ from fastapi import HTTPException
 from passlib.context import CryptContext
 from sqlalchemy.orm import Session
 from models import User
-from api.user.user_schema import UserCreate, Updateuser
+from api.user.user_schema import UserCreate, UserUpdate
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
@@ -29,15 +29,29 @@ def get_user(db: Session, username: str):
 #사용자명으로 사용자 모델 객체를 리턴하는 get_user 함수
 
 
-#회원정보수정
-async def update_user(db: Session, username: str, update_user: Updateuser):
+#회원정보 수정
+async def update_user(db: Session, username: str, user_Update: UserUpdate):
     db_user = db.query(User).filter(User.username == username).first()
     if not db_user:
         raise HTTPException(status_code=404, detail="User not found")
-        db_user.name = name
-        db_user.email = email
-        db_user.phonenumber = phonenumber
-        db_user.birth = birth
+        db_user.name = user_Update.name
+        db_user.email = user_Update.email
+        db_user.phonenumber = user_Update.phonenumber
+        db_user.birth = user_Update.birth
     db.comit()
+    db.refresh(db_user)
+    return {"message": "Successfully updated user"}
+
+#회원비밀번호 수정
+async def update_password(username: str, password: str, db: Session):
+    db_user = db.query(User).filter(User.username == username).first()
+    if not db_user:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    db_user.password = pwd_context.hash(password)
+    if db_user.password == pwd_context.hash(password):
+        raise HTTPException(status_code=404, detail="Duplicated Password")
+
+    db.commit()
     db.refresh(db_user)
     return {"message": "Successfully updated user"}

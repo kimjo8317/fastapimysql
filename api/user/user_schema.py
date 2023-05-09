@@ -14,8 +14,11 @@ class Token(BaseModel):
     token_type: str
     username: str
 
-class Updateuser(BaseModel):
+class UserUpdate(BaseModel):
     name: str
     phonenumber: str
     email: str
     birth: str
+
+class PasswordUpdate(BaseModel):
+    password: str

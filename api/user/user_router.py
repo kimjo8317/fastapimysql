@@ -72,20 +72,24 @@ def update(
     for field in update_data:
         setattr(user, field, update_data[field])
 
-    # 중복 검사
-    # if db.query(User).filter(User.name == user_update.name).first():
-    #     raise HTTPException(status_code=409, detail="Username already exists")
-
     db.commit()
     db.refresh(user)
     return {"message": "Successfully updated user"}
-@router.get("/{username}")
-async def read_user(
-    username: str,
-    db: Session = Depends(get_db),
-):  # 값의 종류가 적을땐 파라미터로써 가져오는게 관리면에서 편하다.
-    db_user = db.query(User).filter(User.username == username).first()
-    if not db_user:
-        raise HTTPException(status_code=404, detail="User not found")
-    return db_user.username
 
+#비밀번호수정 API
+@router.patch("/updatepw/{username}")
+def update_password(
+    username: str,
+    password_update: user_schema.PasswordUpdate,
+    db: Session = Depends(get_db),
+):
+    user = db.query(User).filter(User.username == username).first()
+
+    update_pw = password_update.dict(exclude_unset=True)
+
+    for field in update_pw:
+        setattr(user, field, pwd_context.hash(update_pw[field]))
+
+    db.commit()
+    db.refresh(user)
+    return {"message": "Successfully updated password"}
