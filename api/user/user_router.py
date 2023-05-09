@@ -2,7 +2,7 @@ import secrets
 from datetime import datetime, timedelta
 import jwt
 from fastapi import APIRouter, HTTPException, Depends
-from fastapi.security import OAuth2PasswordRequestForm, OAuth2PasswordBearer
+from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
 from starlette import status
 from database import get_db
@@ -88,37 +88,4 @@ async def read_user(
     if not db_user:
         raise HTTPException(status_code=404, detail="User not found")
     return db_user.username
-
-
-# 로그아웃 API
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
-@router.post("/logout", response_model=user_schema.Token)
-async def logout(token: str = Depends(oauth2_scheme),
-                 db: Session = Depends(get_db)):
-    """
-    Logs out a user and invalidates their token.
-    """
-    # Retrieve user from database based on token sub
-    credentials_exception = HTTPException(
-        status_code=status.HTTP_401_UNAUTHORIZED,
-        detail="Could not validate credentials",
-        headers={"WWW-Authenticate": "Bearer"},
-    )
-    try:
-        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
-        sub: str = payload.get("sub")
-        if sub is None:
-            raise credentials_exception
-    except jwt.ExpiredSignatureError:
-        raise credentials_exception
-    except jwt.InvalidTokenError:
-        raise credentials_exception
-
-    # Update user's token in the database
-    user = user_crud.get_user(db, sub)
-    user.token = None
-    db.commit()
-
-    # Invalidate token
-    return {"access_token": "logged_out", "token_type": "bearer", "sub": sub}
 

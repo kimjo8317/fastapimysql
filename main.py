@@ -36,8 +36,8 @@ pwd_content = CryptContext(schemes=["bcrypt"],deprecated="auto")
 app.include_router(user_router.router)
 app.include_router(question_router.router)
 
-if __name__ == "__main__":
-    port = os.getenv("PORT")
-    if not port:
-        port = 8080
-    uvicorn.run(app, host="0.0.0.0", port=8080)
+# if __name__ == "__main__":
+#     port = os.getenv("PORT")
+#     if not port:
+#         port = 8080
+#     uvicorn.run(app, host="0.0.0.0", port=8080)
