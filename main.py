@@ -1,5 +1,6 @@
-from fastapi import FastAPI
-import requests
+import os
+
+import uvicorn
 from fastapi import FastAPI
 from sqlalchemy.orm import sessionmaker
 from passlib.context import CryptContext
@@ -12,18 +13,7 @@ from database import engineconn
 
 app = FastAPI()
 
-# AI 서버의 주소
-AI_SERVER_URL = "http://127.0.0.1:8000"
-@app.post("/predict")
-async def predict(input_data: str):
-    # AI 서버로 데이터 전송
-    ai_server_response = requests.post(AI_SERVER_URL + "/predict", data=input_data)
-
-    # AI 서버에서 받은 결과 반환
-    return ai_server_response.text
-
-
-engine = engineconn() 
+engine = engineconn()
 Session = sessionmaker(bind=engineconn)
 
 
@@ -46,8 +36,8 @@ pwd_content = CryptContext(schemes=["bcrypt"],deprecated="auto")
 app.include_router(user_router.router)
 app.include_router(question_router.router)
 
-# if __name__ == "__main__":
-#     port = os.getenv("PORT")
-#     if not port:
-#         port = 8080
-#     uvicorn.run(app, host="0.0.0.0", port=8080)
+if __name__ == "__main__":
+    port = os.getenv("PORT")
+    if not port:
+        port = 8080
+    uvicorn.run(app, host="0.0.0.0", port=8080)

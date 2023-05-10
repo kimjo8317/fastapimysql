@@ -1,7 +1,7 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-DB_URL = 'mysql+pymysql://root:1234@localhost:3305/fookpro'
+DB_URL = "mysql+pymysql://root:1234@localhost:3305/fookpro"
 
 
 def get_db():
@@ -11,9 +11,9 @@ def get_db():
 
     finally:
         session.close()
-        
-class engineconn:
 
+
+class engineconn:
     def __init__(self):
         self.engine = create_engine(DB_URL, pool_recycle=500)
 
@@ -24,7 +24,5 @@ class engineconn:
 
     def get_connection(self):
         conn = self.engine.connect()
-        
-        return conn
-    
 
+        return conn
