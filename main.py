@@ -1,6 +1,6 @@
 # import os
-#
 # import uvicorn
+
 from fastapi import FastAPI
 from sqlalchemy.orm import sessionmaker
 from passlib.context import CryptContext
@@ -39,5 +39,5 @@ app.include_router(question_router.router)
 # if __name__ == "__main__":
 #     port = os.getenv("PORT")
 #     if not port:
-#         port = 8080
-#     uvicorn.run(app, host="0.0.0.0", port=8080)
+#         port = 8000
+#     uvicorn.run(app, host="127.0.0.1", port=8000)

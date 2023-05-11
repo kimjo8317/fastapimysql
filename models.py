@@ -21,7 +21,7 @@ class User(Base):
 class Questionboard(Base):
     __tablename__ = "questionboard"
 
-    id = Column(BIGINT, primary_key=True, nullable=False, autoincrement=True)
+    id = Column(INT, primary_key=True, nullable=False, autoincrement=True)
     username = Column(TEXT, nullable=False)
     subject = Column(VARCHAR, nullable=False)
     content = Column(TEXT, nullable=False)

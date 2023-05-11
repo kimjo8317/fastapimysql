@@ -5,8 +5,7 @@ from starlette import status
 from api.board import question_schema, question_crud
 from database import get_db
 from models import Questionboard, User
-from api.board.question_schema import QuestionCreate
-
+from api.board.question_schema import QuestionCreate, QuestionDelete
 
 router = APIRouter(
     prefix="/api/board",
@@ -59,8 +58,8 @@ def question_update(username : str, subject : str,question_update : question_sch
     db.refresh(question)
     return {"message": "Successfully updated question"}
 #게시물 삭제기능
-@router.delete("/delete{username}", tags=["QAboard"])
-def delete_board(id: str, db: Session = Depends(get_db)):
+@router.delete("/delete/{id}", tags=["QAboard"])
+def delete_board(id: int, db: Session = Depends(get_db)):
     id = db.query(Questionboard).filter(Questionboard.id == id).first()
     if not id:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
