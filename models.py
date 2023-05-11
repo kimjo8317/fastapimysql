@@ -1,5 +1,5 @@
 from passlib.context import CryptContext
-from sqlalchemy import Column, TEXT, BIGINT, VARCHAR, DATETIME
+from sqlalchemy import Column, TEXT, BIGINT, VARCHAR, DATETIME,INT
 from sqlalchemy.ext.declarative import declarative_base
 
 Base = declarative_base()
@@ -26,3 +26,13 @@ class Questionboard(Base):
     subject = Column(VARCHAR, nullable=False)
     content = Column(TEXT, nullable=False)
     create_date = Column(DATETIME, nullable=False)
+
+
+#AI서버 연동할 테이블
+class food(Base):
+    __tablename__ = "food"
+    id = Column(INT, primary_key=True, nullable=False, autoincrement=True)
+    name = Column(TEXT, nullable=False)
+
+
+#게시물 수정 삭제

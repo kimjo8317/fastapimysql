@@ -6,3 +6,12 @@ class QuestionCreate(BaseModel):
     subject: str
     content: str
     create_date: datetime
+
+class QuestionUpdate(BaseModel):
+    subject : str
+    content : str
+    create_date : datetime
+
+
+class QuestionDelete(BaseModel):
+    question_id: int
