@@ -59,15 +59,10 @@ def question_update(username : str, subject : str,question_update : question_sch
     db.refresh(question)
     return {"message": "Successfully updated question"}
 #게시물 삭제기능
-@router.delete("/delete", status_code=status.HTTP_204_NO_CONTENT)
-def answer_delete(_question_delete: question_schema.QuestionDelete,
-                  db: Session = Depends(get_db),
-                  current_user: User = Depends(User)):
-    db_answer = get_question(db, answer_id=_question_delete.question_id)
-    if not db_answer:
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
-                            detail="데이터를 찾을수 없습니다.")
-    if current_user.id != db_answer.user.id:
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
-                            detail="삭제 권한이 없습니다.")
-    _question_delete(db=db, db_answer=db_answer)
+@router.delete("/delete{username}", tags=["QAboard"])
+def delete_board(id: str, db: Session = Depends(get_db)):
+    id = db.query(Questionboard).filter(Questionboard.id == id).first()
+    if not id:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
+    db.delete(id)
+    db.commit()
