@@ -17,7 +17,7 @@ class Token(BaseModel):
 
 
 class UserUpdate(BaseModel):
-    username: str
+    name: str
     phonenumber: str
     email: str
     birth: str
