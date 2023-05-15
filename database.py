@@ -1,7 +1,7 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-DB_URL = "mysql+pymysql://root:root@localhost:3306/fook_db"
+DB_URL = "mysql+pymysql://root:1234@localhost:3305/fookpro"
 
 
 def get_db():

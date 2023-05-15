@@ -6,6 +6,7 @@ class QuestionCreate(BaseModel):
     subject: str
     content: str
     create_date: datetime
+    voter: list
 
 
 class QuestionUpdate(BaseModel):
@@ -16,3 +17,8 @@ class QuestionUpdate(BaseModel):
 
 class QuestionDelete(BaseModel):
     question_id: int
+
+class BoardVote(BaseModel):
+    voter_id: int
+
+

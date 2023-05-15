@@ -1,19 +1,17 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from starlette import status
-from database import get_db
-from models import Questionboard
-from api.board.question_schema import QuestionCreate, QuestionUpdate
 
+from database import get_db
+from api.board.question_schema import QuestionCreate, QuestionUpdate, BoardVote
+from models import Questionboard
 
 router = APIRouter(
     prefix="/api/board",
 )
 
 
-@router.post(
-    "/{username}/createboard", tags=["QAboard"], status_code=status.HTTP_200_OK
-)
+@router.post("/{username}/createboard", tags=["QAboard"], status_code=status.HTTP_200_OK)
 def create_question(
     username: str, question_Create: QuestionCreate, db: Session = Depends(get_db)
 ):
@@ -25,6 +23,17 @@ def create_question(
     )
     db.add(db_createboard)
     db.commit()
+
+#게시물 좋아요 기능
+@router.post("/vote", status_code=status.HTTP_204_NO_CONTENT)
+def answer_vote(_board_vote:BoardVote,
+                db: Session = Depends(get_db),
+                ):
+    db_BoardVote = BoardVote(db, voter_id=_board_vote.voter_id)
+    if not db_BoardVote:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
+                            detail="데이터를 찾을수 없습니다.")
+    BoardVote(db, db_answer=db_BoardVote)
 
 
 @router.get("/getboard", tags=["QAboard"])
