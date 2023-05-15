@@ -26,7 +26,8 @@ def create_question(
 
 #게시물 좋아요 기능
 @router.post("/vote", status_code=status.HTTP_204_NO_CONTENT)
-def answer_vote(_board_vote:BoardVote,
+def answer_vote(
+                _board_vote:BoardVote,
                 db: Session = Depends(get_db),
                 ):
     db_BoardVote = BoardVote(voter_id=_board_vote.voter_id)
