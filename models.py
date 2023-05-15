@@ -1,9 +1,7 @@
 from passlib.context import CryptContext
-from sqlalchemy import Column, TEXT, BIGINT, VARCHAR, DATETIME, BOOLEAN, Table
+from sqlalchemy import Column, TEXT, BIGINT, VARCHAR, DATETIME, BOOLEAN, Table, INT
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
-
-from api.board.question_schema import BoardVote
 
 Base = declarative_base()
 pwd_content = CryptContext(schemes=["bcrypt"], deprecated="auto")
@@ -29,7 +27,7 @@ class Questionboard(Base):
     subject = Column(VARCHAR, nullable=False)
     content = Column(TEXT, nullable=False)
     create_date = Column(DATETIME, nullable=False)
-    voter = relationship('user', secondary=boardvoter, backref='question_voters')
+    voter = relationship('user', backref='question_voters')
 
 
 class Comment(Base):
@@ -43,7 +41,9 @@ class Comment(Base):
     pageid = Column(BIGINT, nullable=False)
 
 #추천(ManyToMany방식) 베이스 테이블
-class questionvoter(Base):
-    __tablename__ = "questionvoter"
-    Column('user_id', BIGINT, primary_key=True,autoincrement=True, nullable=False),
-    Column('question_id', BIGINT, nullable=False)
+question_voter = Table(
+    'question_voter',
+    Base.metadata,
+    Column('user_id', BIGINT, nullable=False, primary_key=True),
+    Column('question_id', INT, nullable=False)
+)

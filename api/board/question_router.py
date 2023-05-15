@@ -29,11 +29,10 @@ def create_question(
 def answer_vote(_board_vote:BoardVote,
                 db: Session = Depends(get_db),
                 ):
-    db_BoardVote = BoardVote(db, voter_id=_board_vote.voter_id)
+    db_BoardVote = BoardVote(voter_id=_board_vote.voter_id)
     if not db_BoardVote:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
                             detail="데이터를 찾을수 없습니다.")
-    BoardVote(db, db_answer=db_BoardVote)
 
 
 @router.get("/getboard", tags=["QAboard"])
